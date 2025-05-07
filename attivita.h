@@ -13,7 +13,7 @@ lista_att nuova_attivita(const char *nome, const char *descrizione, const char *
 lista_att elimina_attivita(lista_att l, const char *nome);
 
 //Modifica del progresso di un'attività (=tempo trascorso in un nodo):
-int monitoraggio_progresso(lista_att l,char *nome, int t_trascorso_nuovo);
+int aggiornamento_progresso(lista_att l);
 
 //ordina lista scompone in 3 liste ognuna con 1 priorità diversa
 //e poi le concatena in un'unica lista ordinata da priorità 3 ad 1:

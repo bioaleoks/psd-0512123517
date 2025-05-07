@@ -4,12 +4,18 @@
 #include <string.h>
 #include "attivita.h"
 
+//def. data scadenza
+struct data{
+    int giorno;
+    int mese;
+    int anno;
+};
 //def. nodo lista lista_att
 struct attivita{
     char *nome;
     char *corso_appartenenza;
     char *descrizione;
-    char data_scadenza[11]; //formato gg-mm-aaaa
+    struct data data_scadenza; //formato gg-mm-aaaa
     int priorita;
     int t_stimato;
     int t_trascorso;
@@ -22,53 +28,91 @@ lista_att nuova_lista_att(void){
 };
 
 //Aggiunge 1 attività alla lista:
-lista_att nuova_attivita(const char *nome, const char *descrizione, const char *data_scadenza, int priorita, int t_stimato, int t_trascorso, lista_att l){
+lista_att nuova_attivita(lista_att l){
     struct attivita *nuovo;
     nuovo=malloc(sizeof(struct attivita));
     if(nuovo==NULL){
         printf("Allocazione fallita!\n");
         exit (EXIT_FAILURE);
-    }  
-    nuovo->nome=malloc(strlen(nome)+1);
+    } 
+    struct data data_scadenza;
+    int t_stimato, t_trascorso, priorita;
+    char nome[50], descrizione[150], corso_appartenenza[100];
+    printf("Per inserire una nuova attività, compila i seguenti campi: \n");
+    printf("-Nome attività: \n");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")]=0; // Rimuove \n
+
+    printf("-Corso di appartenenza: \n");
+    fgets(corso_appartenenza, sizeof(corso_appartenenza), stdin);
+    corso_appartenenza[strcspn(corso_appartenenza, "\n")]=0;
+
+    printf("-Descrizione: \n");
+    fgets(descrizione, sizeof(descrizione), stdin);
+    descrizione[strcspn(descrizione, "\n")] = 0;
+
+    printf("-Data di scadenza (formato gg-mm-aaaa): \n");
+    scanf("%d-%d-%d", &data_scadenza.giorno, &data_scadenza.mese, &data_scadenza.anno);
     
+    printf("-Priorità (1=bassa, 2=media, 3=alta): \n");
+    scanf("%d", &priorita);
+
+    printf("-Tempo stimato per completare l'attività (in ore): \n");
+    scanf("%d", &t_stimato);
+
+    printf("-Tempo già trascorso (in ore): \n");
+    scanf("%d", &t_trascorso);
+    while(getchar()!='\n');  // pulizia buffer input
+
+    nuovo->nome=malloc(strlen(nome)+1);
     if(nuovo->nome==NULL){
     printf("Allocazione fallita!\n");
     free(nuovo); //via nodo sennò memory leak
     exit (EXIT_FAILURE);
     }
     strcpy(nuovo->nome,nome);  // Copia stringa
+
     nuovo->descrizione=malloc(strlen(descrizione)+1);
-   
     if(nuovo->descrizione==NULL){
-    printf("Allocazione fallita!\n");
+        printf("Allocazione fallita!\n");
+        free(nuovo->nome);
+        free(nuovo); //senza descrizione, fallisce tutto
+        exit (EXIT_FAILURE);
+        }
+        strcpy(nuovo->descrizione, descrizione); //copia stringa
+
+    nuovo->corso_appartenenza = malloc(strlen(corso_appartenenza) + 1);
+    if (nuovo->corso_appartenenza == NULL) {
+    printf("Errore di allocazione!\n");
     free(nuovo->nome);
-    free(nuovo); //senza descrizione, fallisce tutto
-    exit (EXIT_FAILURE);
+    free(nuovo->descrizione);
+    free(nuovo);
+    exit(EXIT_FAILURE);
     }
-    strcpy(nuovo->descrizione, descrizione); //copia stringa
-    
-    if(data_scadenza!=NULL){  //se è stata inserita correttamente
-        strncpy(nuovo->data_scadenza, data_scadenza, sizeof(nuovo->data_scadenza)-1);
-    } else {
-        printf("C'è un errore nell'inserimento della data di scadenza!\n");
-    }
+    strcpy(nuovo->corso_appartenenza, corso_appartenenza);
+
+    nuovo->data_scadenza=data_scadenza;
     nuovo->priorita=priorita;
     nuovo->t_stimato=t_stimato;
     nuovo->t_trascorso=t_trascorso;
     nuovo->successivo=l;
-    l=nuovo;
-    return l;
+    return nuovo;
 }
 
 //Rimuove un'attività secondo il nome:
-lista_att elimina_attivita(lista_att l, const char *nome){
-    struct attivita *corrente=l;
+lista_att *elimina_attivita(lista_att l){
+    struct attivita corrente=l;
     struct attivita *precedente=NULL;
-    while(corrente != NULL){
-        if (strcmp(corrente->nome, nome)==0){ // Se il nome corrisponde, elimina
-            if (precedente == NULL) {
+    char nome[50];
+    printf("Inserisci il nome dell'attività da eliminare: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")] = 0; // Rimuovi \n
+    
+    while(corrente != NULL){   //scorre lista
+        if(strcmp(corrente->nome, nome)==0){ // Se il nome corrisponde, elimina
+            if(precedente == NULL){
                 // Il nodo da eliminare è il primo della lista
-                l=corrente->successivo;
+                *l=corrente->successivo;
             } else{
                 // Il nodo da eliminare è in mezzo alla lista
                 precedente->successivo=corrente->successivo;
@@ -82,28 +126,55 @@ lista_att elimina_attivita(lista_att l, const char *nome){
         precedente=corrente;
         corrente=corrente->successivo;
     }
-    printf("Attività non trovata.\n"); 
+    printf("Attività non trovata in programma.\n"); 
     return l; // attività non trovata->restituisce lista originale
 }
 
 //Modifica del tempo trascoro di un'attività (in un nodo):
-int monitoraggio_progresso(lista_att l,char *nome, int t_trascorso_nuovo){
+int aggiornamento_progresso(lista_att l){
     struct attivita *corrente;
+    int t_trascorso_agg, val, t_stimato_agg, percentuale;
+    char nome[50];
+    printf("Inserisci il nome dell'attività di cui vuoi aggiornare il progresso: \n");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")]=0; // rimuove \n
+    printf("Inserisci il tempo trascorso aggiornato (in ore): \n");
+    scanf("%d", &t_trascorso_agg);
+    while (getchar() != '\n'); // pulizia buffer input
+
     for(corrente=l; corrente!=NULL; corrente=corrente->successivo){ //attraverso lista
-        if( (strcmp(corrente->nome, nome)== 0)){//cerco nodo che voglio
-        corrente->t_trascorso=t_trascorso_nuovo;
-        
-        if(corrente->t_stimato>=corrente->t_trascorso) //aggiorna con numeri positivi t_stimato
-        corrente->t_stimato=(corrente->t_stimato - t_trascorso_nuovo);
-        return 1; //successo modifica
+        if((strcmp(corrente->nome, nome)== 0)){//cerco nodo che voglio
+            corrente->t_trascorso=t_trascorso_agg;
+        if(corrente->t_stimato>=corrente->t_trascorso){ //aggiorna con numeri positivi t_stimato
+            corrente->t_stimato=(corrente->t_stimato - t_trascorso_agg);
+            percentuale=(corrente->t_trascorso*100)/corrente->t_stimato;
+            printf("La tua percentuale di progresso è %d %", percentuale);
+        }
+        else {
+            printf("Il tempo trascorso è maggiore del tempo stimato. \n");
+            printf("Digita 1 se vuoi aggiornarlo, altrimenti l'attività sarà considerata completata: \n");
+            scanf("%d", &val);
+            if(val==1){
+                printf("Inserisci il nuovo tempo stimato (in ore): \n");
+                scanf("%d", &t_stimato_agg);
+                corrente->t_stimato=t_stimato_agg;
+                printf("Tempo stimato aggiornato!");
+                if(corrente->t_stimato>0){
+                percentuale=(corrente->t_trascorso*100)/corrente->t_stimato;
+                printf("La tua percentuale di progresso è %d %", percentuale);
+                }
+            } else printf("Complimenti, hai completato l'attività con successo!");
+            }
+        return 1; // nodo trovato e modificato
         }
     }
-    return 0; //nodo non trovato
+    printf("Attività non trovata.\n");
+    return 0;
 }
 
 //ordina lista scompone in 3 liste ognuna con 1 priorità diversa
 //e poi le concatena in un'unica lista ordinata da priorità 3 ad 1:
-lista_att *ordina_per_priorita(lista_att *l){
+lista_att ordina_per_priorita(lista_att *l){
     if (l==NULL || (*l)->successivo==NULL){
         return l; // Lista vuota o con un solo elemento, già ordinata
     }
