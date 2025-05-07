@@ -49,11 +49,27 @@ lista_att nuovo_compito(char *nome, char *descrizione, char *data_scadenza, int 
     nuovo->t_stimato=t_stimato;
     nuovo->t_trascorso=t_trascorso;
     nuovo->next=l;
-    return nuovo;
+    l=nuovo;
+    return l;
 }
 
-//Modifica del progresso di un'attività (=tempo trascorso in un nodo):
-void progresso_compito(lista_att);
+//Modifica del tempo trascoro di un'attività (in un nodo):
+int monitoraggio_progresso(lista_att l,char *nome, int t_trascorso_nuovo){
+    struct compito *corrente;
+    for(corrente=l; corrente!=NULL; corrente=corrente->next){ //attraverso lista
+        if( (strcmp(corrente->nome, nome)== 0)){//cerco nodo che voglio
+        corrente->t_trascorso=t_trascorso_nuovo;
+        if(corrente->t_stimato>=corrente->t_trascorso) //aggiorna con numeri positivi t_stimato
+        corrente->t_stimato=(corrente->t_stimato - t_trascorso_nuovo);
+        return 1; //successo modifica
+        }
+    }
+    return 0; //nodo non trovato
+}
+
+
+       
+
 
 
 
