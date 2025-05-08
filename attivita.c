@@ -137,7 +137,6 @@ int aggiornamento_progresso(lista_att l){
     nome[strcspn(nome, "\n")]=0; // rimuove \n
     printf("Inserisci il tempo trascorso aggiornato (in ore): \n");
     scanf("%d", &t_trascorso_agg);
-    while (getchar() != '\n'); // pulizia buffer input
 
     for(corrente=l; corrente!=NULL; corrente=corrente->successivo){ //attraverso lista
         if((strcmp(corrente->nome, nome)== 0)){//cerco nodo che voglio
@@ -225,11 +224,14 @@ int scadenza_att(struct data data_scadenza, int giorno_corrente, int mese_corren
 
 //Stampa punto della situazione progresso attività:
 void report_settimanale(lista_att l){
+    l=ordina_per_priorita(l); //ordina prima di assegnare il puntatore corrente
     struct attivita *corrente=l;
     int giorno_corrente, mese_corrente, anno_corrente, scadenza, percentuale;
     printf("Inserisci la data di oggi (formato gg-mm-aaaa): \n");
     scanf("%d-%d-%d",&giorno_corrente,&mese_corrente,&anno_corrente);
-    printf("Ecco un report settimanale delle tue attività relative al giorno %d-%d-%d:\n\n", &giorno_corrente,&mese_corrente,&anno_corrente);
+    printf("Ecco un report settimanale delle tue attività relative al giorno %d-%d-%d:\n\n", giorno_corrente, mese_corrente, anno_corrente);
+    if (corrente==NULL) //caso lista vuota
+        printf("Nessuna attività trovata!.");
     while(corrente!=NULL){  //attraversa l'intera lista
         printf("Nome: %s\n", corrente->nome);
         printf("Corso di appartenenza: %s\n", corrente->corso_appartenenza);
@@ -250,4 +252,18 @@ void report_settimanale(lista_att l){
         }
         corrente=corrente->successivo;
         }
+}
+
+//libera memoria allocata dinamicamente per la lista
+void libera_memoria(lista_att *l){
+    struct attivita *corrente=*l;
+    while(corrente!=NULL){
+    struct attivita *temp=corrente; //salva nodo corrente
+    corrente=corrente->successivo; //passa al prossimo
+    free(temp->nome);
+    free(temp->descrizione);
+    free(temp->corso_appartenenza);
+    free(temp); //libera nodo corrente
+    }
+    *l=NULL; //evita accessi fittizi
 }

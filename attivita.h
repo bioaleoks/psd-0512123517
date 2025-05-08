@@ -30,4 +30,7 @@ lista_att ordina_per_priorita(lista_att l);
 int scadenza_att(struct data data_scadenza, int giorno_corrente, int mese_corrente, int anno_corrente);
 
 //Stampa punto della situazione progresso attività:
-void report_settimanale(lista_att);
+void report_settimanale(lista_att l);
+
+//libera memoria allocata dinamicamente per la lista:
+void libera_memoria(lista_att *l);
