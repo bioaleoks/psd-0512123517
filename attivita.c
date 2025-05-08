@@ -4,12 +4,6 @@
 #include <string.h>
 #include "attivita.h"
 
-//def. data scadenza
-struct data{
-    int giorno;
-    int mese;
-    int anno;
-};
 //def. nodo lista lista_att
 struct attivita{
     char *nome;
@@ -28,7 +22,7 @@ lista_att nuova_lista_att(void){
 };
 
 //Aggiunge 1 attività alla lista:
-lista_att nuova_attivita(lista_att l){
+lista_att aggiungi_attivita(lista_att l){
     struct attivita *nuovo;
     nuovo=malloc(sizeof(struct attivita));
     if(nuovo==NULL){
@@ -100,8 +94,9 @@ lista_att nuova_attivita(lista_att l){
 }
 
 //Rimuove un'attività secondo il nome:
-lista_att *elimina_attivita(lista_att l){
-    struct attivita corrente=l;
+lista_att rimuovi_attivita(lista_att l){
+    struct attivita *corrente;
+    corrente=l;
     struct attivita *precedente=NULL;
     char nome[50];
     printf("Inserisci il nome dell'attività da eliminare: ");
@@ -112,7 +107,7 @@ lista_att *elimina_attivita(lista_att l){
         if(strcmp(corrente->nome, nome)==0){ // Se il nome corrisponde, elimina
             if(precedente == NULL){
                 // Il nodo da eliminare è il primo della lista
-                *l=corrente->successivo;
+                l=corrente->successivo;
             } else{
                 // Il nodo da eliminare è in mezzo alla lista
                 precedente->successivo=corrente->successivo;
@@ -174,12 +169,12 @@ int aggiornamento_progresso(lista_att l){
 
 //ordina lista scompone in 3 liste ognuna con 1 priorità diversa
 //e poi le concatena in un'unica lista ordinata da priorità 3 ad 1:
-lista_att ordina_per_priorita(lista_att *l){
-    if (l==NULL || (*l)->successivo==NULL){
+lista_att ordina_per_priorita(lista_att l){
+    if (l==NULL || l->successivo==NULL){
         return l; // Lista vuota o con un solo elemento, già ordinata
     }
     struct attivita *priorita3=NULL, *priorita2=NULL, *priorita1=NULL;
-    struct attivita *corrente=*l;
+    struct attivita *corrente=l;
     // Divisione in tre liste diverse:
     while(corrente!=NULL){
         struct attivita *successivo=corrente->successivo;
@@ -214,18 +209,15 @@ lista_att ordina_per_priorita(lista_att *l){
     } else {
         priorita3=priorita1;
     }
-    *l=priorita3;
+    l=priorita3;
     return l; // Lista ordinata rispetto le priorità
 }
 
 //fz per verificare la scadenza di un'attività:
-int scadenza_att(const char *data_scadenza, int giorno_corrente, int mese_corrente, int anno_corrente){
-    int giorno, mese, anno;
-    sscanf(data_scadenza, "%d-%d-%d", &giorno, &mese, &anno);
-    // Confronto diretto date
-    if(anno<anno_corrente) return 1; //scaduta
-    if(anno==anno_corrente && mese<mese_corrente) return 1; //scaduta
-    if(anno==anno_corrente && mese==mese_corrente && giorno<giorno_corrente) return 1; //scaduta
+int scadenza_att(struct data data_scadenza, int giorno_corrente, int mese_corrente, int anno_corrente){
+    if(data_scadenza.anno < anno_corrente) return 1; //scaduta
+    if(data_scadenza.anno == anno_corrente && data_scadenza.mese < mese_corrente) return 1; //scaduta
+    if(data_scadenza.anno == anno_corrente && data_scadenza.mese == mese_corrente && data_scadenza.giorno < giorno_corrente) return 1; //scaduta
     return 0; //valida
 }
 
