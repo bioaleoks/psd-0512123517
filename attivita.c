@@ -54,13 +54,12 @@ lista_att aggiungi_attivita(lista_att l){
     printf("-Tempo stimato per completare l'attività (in ore): \n");
     scanf("%d", &t_stimato);
 
-    printf("-Tempo già trascorso (in ore): \n");
+    printf("-Tempo già trascorso (in ore): \n\n");
     scanf("%d", &t_trascorso);
-    while(getchar()!='\n');  // pulizia buffer input
 
     nuovo->nome=malloc(strlen(nome)+1);
     if(nuovo->nome==NULL){
-    printf("Allocazione fallita!\n");
+    printf("Errore nell'inserimento!\n");
     free(nuovo); //via nodo sennò memory leak
     exit (EXIT_FAILURE);
     }
@@ -68,7 +67,7 @@ lista_att aggiungi_attivita(lista_att l){
 
     nuovo->descrizione=malloc(strlen(descrizione)+1);
     if(nuovo->descrizione==NULL){
-        printf("Allocazione fallita!\n");
+        printf("Errore nell'inserimento!\n");
         free(nuovo->nome);
         free(nuovo); //senza descrizione, fallisce tutto
         exit (EXIT_FAILURE);
@@ -77,7 +76,7 @@ lista_att aggiungi_attivita(lista_att l){
 
     nuovo->corso_appartenenza = malloc(strlen(corso_appartenenza) + 1);
     if (nuovo->corso_appartenenza == NULL) {
-    printf("Errore di allocazione!\n");
+    printf("Errore nell'inserimento!\n");
     free(nuovo->nome);
     free(nuovo->descrizione);
     free(nuovo);
@@ -90,6 +89,8 @@ lista_att aggiungi_attivita(lista_att l){
     nuovo->t_stimato=t_stimato;
     nuovo->t_trascorso=t_trascorso;
     nuovo->successivo=l;
+    printf("Nuova attività aggiunta con successo!\n");
+    while(getchar()!='\n');  // pulizia buffer input
     return nuovo;
 }
 
@@ -99,7 +100,7 @@ lista_att rimuovi_attivita(lista_att l){
     corrente=l;
     struct attivita *precedente=NULL;
     char nome[50];
-    printf("Inserisci il nome dell'attività da eliminare: ");
+    printf("Inserisci il nome dell'attività da eliminare: \n\n");
     fgets(nome, sizeof(nome), stdin);
     nome[strcspn(nome, "\n")] = 0; // Rimuovi \n
     
@@ -116,6 +117,7 @@ lista_att rimuovi_attivita(lista_att l){
             free(corrente->corso_appartenenza);
             free(corrente->descrizione);
             free(corrente);
+            printf("Attività correttamente rimossa.\n");
             return l; //lista aggiornata
         }
         precedente=corrente;
@@ -146,19 +148,19 @@ int aggiornamento_progresso(lista_att l){
             printf("La tua percentuale di progresso è %d %", percentuale);
         }
         else {
-            printf("Il tempo trascorso è maggiore del tempo stimato. \n");
-            printf("Digita 1 se vuoi aggiornarlo, altrimenti l'attività sarà considerata completata: \n");
+            printf("Il tempo trascorso è maggiore del tempo stimato.\n");
+            printf("Digita 1 se vuoi aggiornarlo, altrimenti l'attività sarà considerata completata: \n\n");
             scanf("%d", &val);
             if(val==1){
                 printf("Inserisci il nuovo tempo stimato (in ore): \n");
                 scanf("%d", &t_stimato_agg);
                 corrente->t_stimato=t_stimato_agg;
-                printf("Tempo stimato aggiornato!");
+                printf("Tempo stimato aggiornato!\n");
                 if(corrente->t_stimato>0){
                 percentuale=(corrente->t_trascorso*100)/corrente->t_stimato;
-                printf("La tua percentuale di progresso è %d %", percentuale);
+                printf("La tua percentuale di progresso è %d %\n", percentuale);
                 }
-            } else printf("Complimenti, hai completato l'attività con successo!");
+            } else printf("Complimenti, hai completato l'attività con successo!\n");
             }
         return 1; // nodo trovato e modificato
         }
@@ -227,12 +229,12 @@ void report_settimanale(lista_att l){
     int giorno_corrente, mese_corrente, anno_corrente, scadenza, percentuale;
     printf("Inserisci la data di oggi (formato gg-mm-aaaa): \n");
     scanf("%d-%d-%d",&giorno_corrente,&mese_corrente,&anno_corrente);
-    printf("Ecco un report settimanale delle tue attività:\n");
+    printf("Ecco un report settimanale delle tue attività relative al giorno %d-%d-%d:\n\n", &giorno_corrente,&mese_corrente,&anno_corrente);
     while(corrente!=NULL){  //attraversa l'intera lista
         printf("Nome: %s\n", corrente->nome);
         printf("Corso di appartenenza: %s\n", corrente->corso_appartenenza);
         printf("Descrizione: %s\n", corrente->descrizione);
-        printf("Data di scadenza: %s\n", corrente->data_scadenza);
+        printf("Data di scadenza: %d-%d-%d\n", corrente->data_scadenza.giorno, corrente->data_scadenza.mese, corrente->data_scadenza.anno);
         printf("Priorità: %d\n", corrente->priorita);
         printf("Tempo stimato: %d ore\n", corrente->t_stimato);
         printf("Tempo trascorso: %d ore\n", corrente->t_trascorso); 
