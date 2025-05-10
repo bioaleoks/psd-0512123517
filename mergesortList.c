@@ -1,7 +1,6 @@
 /* File mergesortList.c
 Implementazione delle funzioni necessarie per la codica del metodo
 di ordinamento MergeSort relativo all'ADT "Attività". */
-#define ATTIVITA_INTERNA
 #include <stdlib.h>
 #include "attivita.h"
 #include "mergesortList.h"
