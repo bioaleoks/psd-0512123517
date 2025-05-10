@@ -1,5 +1,6 @@
-//file attivita.h
-//Definizione interfaccia ADT "Attività".
+/* File attivita.h
+Definizione interfaccia ADT "Attività" e prototipi 
+delle fz dell'insieme base. */
 typedef struct attivita *lista_att;
 
 #ifndef attivita_h

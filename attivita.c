@@ -1,12 +1,12 @@
-//File attività.c
-//Implementazione dell'ADT "Attività" e delle relative funzioni per la gestione di una lista di attività.
+/* File attività.c
+Implementazione ADT "Attivita" e delle relative fz base. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "attivita.h"
 #include "mergesortList.h"
 
-//Def. nodo della lista lista_att
+//Def. attivita, nodo della lista lista_att
 struct attivita{
     char *nome;
     char *corso_appartenenza;
@@ -16,11 +16,6 @@ struct attivita{
     int t_stimato;
     int t_trascorso;
     struct attivita *successivo;
-};
-
-// nuova_lista: crea nuova lista di attività.
-lista_att nuova_lista_att(void){
-    return NULL;
 };
 
 /* aggiungi_attivita: alloca dinamicamente una nuova attività e, attraverso gli
@@ -213,6 +208,7 @@ void report_settimanale(lista_att* l){
     struct attivita *corrente=*l;
     struct data data_corrente;
     int val, scadenza, percentuale;
+
     while(1){
         //Il ciclo termina solo se l'utente inserisce una data valida.
         printf("Inserisci la data di oggi (formato gg-mm-aaaa): \n");
@@ -223,6 +219,7 @@ void report_settimanale(lista_att* l){
             while(getchar()!='\n');
         } else break;
     }
+
     if(corrente==NULL){ //Lista vuota.
         printf("Nessuna attività trovata per questa settimana!\n");
         printf("Digita 1 se vuoi inserirne una adesso, altrimenti 0 per uscire: \n");
@@ -243,8 +240,10 @@ void report_settimanale(lista_att* l){
         printf("Priorità: %d\n", corrente->priorita);
         printf("Tempo stimato: %d ore\n", corrente->t_stimato);
         printf("Tempo trascorso: %d ore\n", corrente->t_trascorso); 
+
         scadenza=scadenza_att(corrente->data_scadenza, data_corrente);
         //scadenza=0 se non è scaduta l'attività, altrimenti 1.
+
         if(scadenza==1)
            printf("L'attività è scaduta!\n\n");
         else if(corrente->t_stimato==corrente->t_trascorso || corrente->t_stimato==0)
@@ -253,6 +252,7 @@ void report_settimanale(lista_att* l){
                percentuale=(corrente->t_trascorso*100)/corrente->t_stimato;
                printf("L'attività è in corso, con una percentuale di completamento %d%!\n\n", percentuale);
             }
+
         corrente=corrente->successivo;
         }
 }

@@ -27,9 +27,9 @@ int main(void){
     system("clear");
 
     switch(scelta){
-        case 1: aggiungi_attivita(l);
+        case 1: l=aggiungi_attivita(l);
                 break;
-        case 2: rimuovi_attivita(l);
+        case 2: l=rimuovi_attivita(l);
                 break;
         case 3: aggiornamento_progresso(l);
                 break;
