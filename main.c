@@ -1,7 +1,12 @@
+//File main.c
+//Interfaccia utente per il software per la gestione dello studio. 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "attivita.h"
+/* Non è incluso il file "mergesortList.h" poichè non è usato in
+maniera esplicita nel main, ma da fz definite nel file "attivita.h",
+che contiene già l'inclusione per "mergesortList.h". */
 
 int main(void){
     lista_att l=nuova_lista_att();
@@ -18,7 +23,7 @@ int main(void){
     printf("Inserisci il numero corrispondente alla tua scelta: ");
     scanf("%d", &scelta);
     
-    while ((c=getchar())!='\n'); // pulizia input buffer.     
+    while ((c=getchar())!='\n');    
     system("clear");
 
     switch(scelta){
@@ -28,7 +33,7 @@ int main(void){
                 break;
         case 3: aggiornamento_progresso(l);
                 break;
-        case 4: report_settimanale(l);
+        case 4: report_settimanale(&l);
                 break;
         case 0: printf("Chiusura programma in corso... \n");
                 break;    
@@ -36,7 +41,6 @@ int main(void){
     }
     } while(scelta!=0);
 
-    //libera memoria allocata dinamicamente della lista:
     libera_memoria(&l);
     return 0;
 }

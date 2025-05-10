@@ -1,36 +1,53 @@
-//File attività.h INTERFACCIA ADT: ATTIVITA'
-
+//file attivita.h
+//Definizione interfaccia ADT "Attività".
 typedef struct attivita *lista_att;
 
-//def. data scadenza
-struct data{
+#ifndef attivita_h
+#define attivita_h
+struct data {
     int giorno;
     int mese;
     int anno;
 };
-//Prototipi fz base:
 
-//Crea nuova lista attività:
+#endif
+
+//Prototipi dell'insieme delle funzioni di base:
+
+/* nuova_lista: crea nuova lista di attività.
+Non richiede un'interazione con l'utente. */
 lista_att nuova_lista_att(void);
 
-//Aggiunge 1 attività alla lista:
+/* aggiungi_attivita: aggiunge un'attività alla lista,
+secondo le informazioni inserite dall'utente. */
 lista_att aggiungi_attivita(lista_att l);
 
-//Rimuove un'attività secondo il nome:
+/* rimuovi_attivita: rimuove un'attività 
+selezionata dall'utente dalla lista. */
 lista_att rimuovi_attivita(lista_att l);
 
-//Modifica del progresso di un'attività (=tempo trascorso in un nodo):
+/* aggiornamento_progresso: permette all'utente di aggiornare i 
+campi "tempo trascorso" e "tempo stimato" di un'attività, 
+calcolandone anche la relativa percentuale di progresso. */
 int aggiornamento_progresso(lista_att l);
 
-//ordina lista scompone in 3 liste ognuna con 1 priorità diversa
-//e poi le concatena in un'unica lista ordinata da priorità 3 ad 1:
-lista_att ordina_per_priorita(lista_att l);
+/* ordina_per_priorita: ordina la lista delle attività in base al
+parametro "priorità", dal grado 3 al grado 1, usando l'algoritmo
+di ordinamento MergeSort. Viene usata dalla fz report_settimale,
+senza un uso esplicito da parte dell'utente. */
+void ordina_per_priorita(lista_att *l);
 
-//fz per verificare la scadenza di un'attività:
-int scadenza_att(struct data data_scadenza, int giorno_corrente, int mese_corrente, int anno_corrente);
+/* scandeza_att: stabilisce se un'attività ha superato la data di scadenza, 
+confrontandola con quella odierna, ricevuta in input dall'utente. E' una
+fz non usata espicitamente dall'utente ma usata dalla fz report_settimanale. */
+int scadenza_att(struct data data_scadenza, struct data data_corrente);
 
-//Stampa punto della situazione progresso attività:
-void report_settimanale(lista_att l);
+/* report_settimanale: stampa, per ogni attività presente, i relativi campi
+e mostra se esse sono state completate, sono in corso oppure sono scadute,
+in relazione alla data inserita dall'utente. */
+void report_settimanale(lista_att *l);
 
-//libera memoria allocata dinamicamente per la lista:
+/* libera_memoria: libera la memoria allocata dinamicamente per ogni 
+attività della lista. Non è usata dall'utente e viene chiamata prima 
+che l'esecuzione del programma termini. */
 void libera_memoria(lista_att *l);
