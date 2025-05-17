@@ -33,7 +33,7 @@ struct attivita* trova_meta(struct attivita* head){
 /* unione_liste: unisce due liste ordinate per "priorità". E' la
 fase finale del metodo MergeSort e di ogni sua chiamata ricorsiva.
 Viene chiamata se la lista passata contiene più di un elemento. */
-struct attivita* unione_liste(struct attivita* lista1, struct attivita* lista2) {
+struct attivita* unione_liste(struct attivita* lista1, struct attivita* lista2){
     if(lista1==NULL) return lista2;
     if(lista2==NULL) return lista1;
     if(lista1->priorita >= lista2->priorita){
@@ -49,7 +49,7 @@ struct attivita* unione_liste(struct attivita* lista1, struct attivita* lista2) 
 parametro "priorità". Si serve di due funzioni trova_meta e unione_list
 per effettuare i passi del metodo di ordinamento MergeSort. Inoltre, è 
 una fz ricorsiva che presenta, per ogni chiamata, due chiamate a se stessa. */
-struct attivita* mergesort_lista(struct attivita* head) {
+struct attivita* mergesort_lista(struct attivita* head){
     //se la lista è vuota o ha un solo elemento, è considerata già ordinata.
     if(head==NULL || head->successivo==NULL) return head;
     struct attivita* meta=trova_meta(head);

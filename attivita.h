@@ -15,7 +15,7 @@ struct data {
 
 //Prototipi dell'insieme delle funzioni di base:
 
-/* nuova_lista: crea nuova lista di attività.
+/* nuova_lista: crea nuova lista vuota di attività.
 Non richiede un'interazione con l'utente. */
 lista_att nuova_lista_att(void);
 
@@ -39,13 +39,13 @@ senza un uso esplicito da parte dell'utente. */
 void ordina_per_priorita(lista_att *l);
 
 /* scandeza_att: stabilisce se un'attività ha superato la data di scadenza, 
-confrontandola con quella odierna, ricevuta in input dall'utente. E' una
-fz non usata espicitamente dall'utente ma usata dalla fz report_settimanale. */
-int scadenza_att(struct data data_scadenza, struct data data_corrente);
+confrontandola con la data di fine settimana, ricevuta in input dall'utente.
+E' una fz non usata espicitamente dall'utente ma usata dalla fz report_settimanale. */
+int scadenza_att(struct data data_scadenza, struct data fine_sett);
 
-/* report_settimanale: stampa, per ogni attività presente, i relativi campi
-e mostra se esse sono state completate, sono in corso oppure sono scadute,
-in relazione alla data inserita dall'utente. */
+/* report_settimanale: stampa, per ogni attività inserita entro la settimana
+selezionata, i relativi campi e mostra se esse sono state completate, sono in
+corso oppure sono scadute, in relazione alla data inserita dall'utente. */
 void report_settimanale(lista_att *l);
 
 /* libera_memoria: libera la memoria allocata dinamicamente per ogni 
