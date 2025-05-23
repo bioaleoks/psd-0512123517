@@ -3,6 +3,7 @@ Implementazione delle funzioni necessarie per la codica del metodo
 di ordinamento MergeSort relativo all'ADT "Attività". */
 #include <stdlib.h>
 #include "attivita.h"
+#include "attivitatest.h"
 #include "mergesortList.h"
 
 struct attivita{

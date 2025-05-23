@@ -1,0 +1,17 @@
+all: ProgrammaTesting
+
+ProgrammaTesting: maintest.o attivitatest.o mergesortList.o
+	gcc maintest.o attivitatest.o mergesortList.o -o ProgrammaTesting
+
+maintest.o: maintest.c attivitatest.h
+	gcc -c maintest.c
+
+attivitatest.o: attivitatest.c attivitatest.h mergesortList.h
+	gcc -c attivitatest.c
+
+mergesortList.o: mergesortList.c mergesortList.h attivitatest.h
+	gcc -c mergesortList.c
+
+clean:
+	del /Q *.o ProgrammaTesting.exe
+

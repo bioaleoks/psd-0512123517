@@ -1,6 +1,7 @@
 //File mergesortList.h:
 //Definizione modulo fz MergeSort relativa all'ADT "Attività".
 #include "attivita.h"
+#include "attivitatest.h"
 
 /* mergesort_lista: usa il metodo di ordinamento MergeSort
 per ordinare una lista. E' una fz ricorsiva che presenta

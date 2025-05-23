@@ -1,7 +1,7 @@
-all: programma
+all: Programma
 
-programma: main.o attivita.o mergesortList.o
-	gcc main.o attivita.o mergesortList.o -o programma
+Programma: main.o attivita.o mergesortList.o
+	gcc main.o attivita.o mergesortList.o -o Programma
 
 main.o: main.c attivita.h
 	gcc -c main.c
@@ -13,4 +13,4 @@ mergesortList.o: mergesortList.c mergesortList.h attivita.h
 	gcc -c mergesortList.c
 
 clean:
-	del /Q *.o programma.exe
+	del /Q *.o Programma.exe
