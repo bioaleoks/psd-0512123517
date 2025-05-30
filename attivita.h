@@ -1,6 +1,9 @@
 /* File attivita.h
 Definizione interfaccia ADT "Attività" e prototipi 
-delle fz dell'insieme base. */
+delle fz dell'insieme base.
+
+Autore: Alessia Plaitano 
+Data creazione: 6 Maggio 2025 */
 typedef struct attivita *lista_att;
 
 #ifndef attivita_h
@@ -23,7 +26,7 @@ lista_att nuova_lista_att(void);
 secondo le informazioni inserite dall'utente. */
 lista_att aggiungi_attivita(lista_att l);
 
-/* rimuovi_attivita: rimuove un'attività 
+/* rimuovi_attivita: rimuove un'attività dalla lista,
 selezionata dall'utente dalla lista. */
 lista_att rimuovi_attivita(lista_att l);
 

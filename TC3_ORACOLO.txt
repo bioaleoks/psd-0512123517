@@ -1,0 +1,14 @@
+Per inserire una nuova attivita', compila i seguenti campi:
+-Nome attivita': Algebra  
+-Corso di appartenenza: Matematica 
+-Descrizione: Es. capitolo 4 
+-Data di scadenza: 15-12-2025
+-Data di inserimento: 10-12-2025
+Inserisci un numero valido, compreso tra 1 e 3!
+-Priorità: 2
+-Tempo stimato per completare l'attivita': 55 ore
+-Tempo gia' trascorso: 22 ore
+
+
+Nuova attivita' aggiunta con successo!
+

@@ -1,0 +1,13 @@
+Per inserire una nuova attivita', compila i seguenti campi:
+-Nome attivita': Metodi Matematici per l'Informatica  
+-Corso di appartenenza: Informatica 
+-Descrizione: I metodi matematici per l'informatica includono insiemi e operazioni, relazioni e funzioni, logica proposizionale e principio di induzione.
+-Data di scadenza: 15-12-2025
+-Data di inserimento: 10-12-2025
+-Priorità: 2
+-Tempo stimato per completare l'attivita': 55 ore
+-Tempo gia' trascorso: 22 ore
+
+
+Nuova attivita' aggiunta con successo!
+

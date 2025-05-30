@@ -1,5 +1,8 @@
-//File main.c
-//Interfaccia utente per il software per la gestione dello studio. 
+/*File main.c
+Interfaccia utente per il software per la gestione dello studio. 
+Autore: Alessia Plaitano 
+Data creazione: 26 Aprile 2025 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,8 +17,12 @@ int main(void){
     char c;
     
     do{
-    
-        printf("Pianifica e monitora il tuo studio!\n");
+        
+        printf("\033[H\033[J");
+
+        printf("*************************************\n");
+        printf(" Pianifica e monitora il tuo studio!\n");
+        printf("*************************************\n");
         printf("1. Aggiungi nuova attivita'.\n");
         printf("2. Elimina un'attivita'.\n");
         printf("3. Aggiorna il progresso di un'attivita'.\n");
@@ -25,7 +32,11 @@ int main(void){
         scanf("%d", &scelta);
 
         while((c=getchar())!='\n');    
-        system("cls");
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
 
         switch(scelta){
             case 1: l=aggiungi_attivita(l);
@@ -40,6 +51,13 @@ int main(void){
                     break;    
             default: printf("Scelta non valida, riprova.\n");
         }
+        
+        while((getchar())!='\n');
+        
+        //Pulizia schermo prima della prossima scelta dell'utente.
+        printf("\nPremi un tasto per continuare...\n"); 
+        getchar();
+       
 
     } while(scelta!=0);
 

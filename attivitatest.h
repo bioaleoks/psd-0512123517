@@ -1,6 +1,10 @@
 /* File attivita.h
 Definizione interfaccia ADT "Attività" e prototipi 
-delle fz dell'insieme base. */
+delle fz dell'insieme base. 
+
+Autore: Alessia Plaitano 
+Data creazione: 22 Maggio 2025*/
+
 #include <stdio.h>
 typedef struct attivita *lista_att;
 
@@ -39,7 +43,7 @@ di ordinamento MergeSort. Viene usata dalla fz report_settimale,
 senza un uso esplicito da parte dell'utente. */
 void ordina_per_priorita(lista_att *l);
 
-/* scandeza_att: stabilisce se un'attività ha superato la data di scadenza, 
+/* scadenza_att: stabilisce se un'attività ha superato la data di scadenza, 
 confrontandola con la data di fine settimana, ricevuta in input dall'utente.
 E' una fz non usata espicitamente dall'utente ma usata dalla fz report_settimanale. */
 int scadenza_att(struct data data_scadenza, struct data fine_sett);
@@ -49,7 +53,10 @@ selezionata, i relativi campi e mostra se esse sono state completate, sono in
 corso oppure sono scadute, in relazione alla data inserita dall'utente. */
 void test_report_settimanale(lista_att *l, FILE *tc_input, FILE *tc_output);
 
-
+/* verifica_test: dopo la scelta dell'utente e l'esecuzione della funzione
+associata, verifica che il file oracolo, passato a riga di comando, e il file
+output creato e scritto dal software, sono uguali. In tal caso, il test è considerato
+SUCCESSO, altrimenti FALLIMENTO. */
 void verifica_test(char *file_oracolo, char *risultato);
 
 

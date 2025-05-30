@@ -1,0 +1,6 @@
+Elenco dei risultati dei test case:
+TC1: SUCCESSO
+TC2: SUCCESSO
+TC3: SUCCESSO
+TC4: SUCCESSO
+TC5: SUCCESSO
